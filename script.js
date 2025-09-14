@@ -1,51 +1,21 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const projects = [
-        {
-            folder: 'b26t',
-            name: 'b26t',
-            description: 'Base26 UID generator based on time'
-        },
-        {
-            folder: 'bc-combo',
-            name: 'Battle Cats Combo Calculator',
-            description: 'Battle Cats Combo Finder'
-        },
-        {
-            folder: 'pixel-bg-remover',
-            name: 'Pixel BG Remover',
-            description: 'Manual Background Remover'
-        },
-        {
-            folder: 'RKBI',
-            name: 'RKBI',
-            description: ''
-        },
-        {
-            folder: 'sk-chars',
-            name: 'SKChars',
-            description: 'Soul Knight Character Viewer'
-        },
-        {
-            folder: 'sk-save',
-            name: 'SKSave',
-            description: ''
-        },
-        {
-            folder: 'stack-images',
-            name: 'Image Stacker',
-            description: 'Stack Images'
-        },
-        {
-            folder: 'wplace-fixer',
-            name: 'Pixel Palette Converter',
-            description: 'Convert images to wplace palette'
-        }
+document.addEventListener('DOMContentLoaded', async () => {
+    const projectFolders = [
+        'b26t', 'bc-combo', 'pixel-bg-remover', 'RKBI', 
+        'sk-chars', 'sk-save', 'stack-images', 'wplace-fixer'
     ];
 
     const projectGrid = document.getElementById('project-grid');
     const params = new URLSearchParams(window.location.search);
     const showAll = params.has('hail');
 
+    const fetchPromises = projectFolders.map(folder => 
+        fetch(`${folder}/config.json`)
+            .then(response => response.json())
+            .then(config => ({ ...config, folder }))
+            .catch(error => console.error(`Error loading config for ${folder}:`, error))
+    );
+
+    const projects = (await Promise.all(fetchPromises)).filter(Boolean);
     const filteredProjects = showAll ? projects : projects.filter(p => p.description !== '');
 
     filteredProjects.forEach(project => {

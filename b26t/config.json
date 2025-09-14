@@ -1,0 +1,4 @@
+{
+  "name": "b26t",
+  "description": "Base26 UID generator based on time"
+}
