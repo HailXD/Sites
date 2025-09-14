@@ -1,9 +1,9 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5;
+    background-color: #121212;
     margin: 0;
     padding: 20px;
-    color: #333;
+    color: #e0e0e0;
 }
 
 .container {
@@ -14,13 +14,13 @@ body {
 header {
     text-align: center;
     padding: 40px 0;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid #3a3a4e;
     margin-bottom: 40px;
 }
 
 header h1 {
     font-size: 3em;
-    color: #2c3e50;
+    color: #ffffff;
 }
 
 #project-grid {
@@ -30,16 +30,17 @@ header h1 {
 }
 
 .project-card {
-    background-color: #fff;
+    background-color: #1e1e2e;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #3a3a4e;
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.6);
 }
 
 .project-card a {
@@ -52,7 +53,7 @@ header h1 {
     font-size: 1.5em;
     margin: 0;
     padding: 20px;
-    background-color: #3498db;
+    background-color: #8b5cf6;
     color: #fff;
 }
 
@@ -60,4 +61,5 @@ header h1 {
     padding: 20px;
     font-size: 1em;
     line-height: 1.6;
+    color: #a0a0a0;
 }
