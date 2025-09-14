@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>PokeRogue Editor</title>
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Your Name" />
+    <meta name="description" content="A simple online AES encryption/decryption tool." />
+    <meta name="keywords" content="cryptography, encryption, decryption, AES, AES 256, Rijndael" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form id="form">
+        <h1>PokeRogue Save Converter</h1>
+        <fieldset>
+            <label for="file">Select .json or .prsv file:</label>
+            <input type="file" id="file" accept=".json, .prsv" required />
+
+            <button type="button" id="encryptBtn">Encrypt and Download</button>
+            <button type="button" id="decryptBtn" class="btn-secondary">Decrypt and Download</button>
+            <div id="advanced-options" style="display: none;">
+                <button type="button" id="healBtn" class="btn-heal">Heal Up</button>
+                <button type="button" id="addMasterBtn" class="btn-master">+1 Master Ball</button>
+                <button type="button" id="addRogueBtn" class="btn-rogue">+10 Rogue Ball</button>
+                <button type="button" id="skipFloorBtn" class="btn-skip">Skip Floor</button>
+                <button type="button" id="skipFloorWaveBtn" class="btn-backtrack">Backtrack</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <script src="cryptography-js.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
