@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>b26t</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="output"><span></span></div>
+
+  <textarea readonly rows="2">import time
+x=(lambda f:f(f,int(time.time()*100)))(lambda s,n:n<26 and chr(97+n%26)or s(s,n//26)+chr(97+n%26))</textarea>
+
+  <textarea readonly rows="2">const x=((f)=>f(f,Math.floor(Date.now()/10)))((s,n)=>n<26?String.fromCharCode(97+n%26):s(s,Math.floor(n/26))+String.fromCharCode(97+n%26));</textarea>
+
+  <script src="script.js"></script>
+</body>
+</html>

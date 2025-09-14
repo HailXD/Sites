@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soul Knight Characters</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Soul Knight Characters</h1>
+
+        <div id="hail-container" style="display: none;">
+            <textarea id="xml-input" placeholder="Paste your .plist XML here..."></textarea>
+            <div class="controls">
+                <button id="process-button">Load</button>
+                <button id="update-button">Update</button>
+                <input type="text" id="key-search-bar" placeholder="Search for a key...">
+            </div>
+            <div id="table-container"></div>
+            <div id="gems-container">
+                Gems: <span id="gems-value" contenteditable="true">0</span>
+            </div>
+            <div id="changes-container">
+                <div class="change-column">
+                    <h2>Removed</h2>
+                    <ul id="removed-skins-list"></ul>
+                </div>
+                <div class="change-column">
+                    <h2>Added</h2>
+                    <ul id="added-skins-list"></ul>
+                </div>
+            </div>
+            <textarea id="xml-output" readonly></textarea>
+        </div>
+
+        <input type="text" id="search-bar" placeholder="Search for a character or skin...">
+        <div id="characters-container"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

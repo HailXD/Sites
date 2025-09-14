@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.container {
+  width: 90%;
+  max-width: 1200px;
+  height: 90vh;
+  display: flex;
+  box-shadow: 8px 8px 0 #333;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  border: 4px solid #333;
+}
+.input-panel {
+  width: 30%;
+  background: #fafafa;
+  padding: 20px;
+  border-right: 4px solid #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: inset 4px 4px 0 #ccc;
+}
+.input-panel h2 {
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+.input-panel label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+.input-panel input[type="file"],
+.input-panel select {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid #333;
+  border-radius: 4px;
+  font-size: 1em;
+  background: #fff;
+}
+.input-panel button {
+  padding: 10px;
+  font-size: 1em;
+  background: #ffeb3b;
+  border: 2px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-bottom: 10px;
+}
+.input-panel button:hover {
+  background: #ffc107;
+}
+.output-panel {
+    flex-grow: 1;
+    padding: 20px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: #fafafa;
+    box-shadow: inset 4px 4px 0 #ccc;
+}
+.output-panel .image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.output-panel .image-wrapper img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #333;
+  box-shadow: 4px 4px 0 #333;
+  display: block;
+}
+.output-panel .remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  padding: 2px 6px;
+  font-size: 14px;
+  cursor: pointer;
+  display: none;
+  z-index: 10;
+}
+.output-panel .image-wrapper:hover img {
+  filter: brightness(70%);
+}
+.output-panel .image-wrapper:hover .remove-button {
+  display: block;
+}

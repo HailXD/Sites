@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battle Cats Combo Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🐱 Battle Cats Combo Calculator</h1>
+            <p>Find the optimal combination of cats to achieve your desired combo effect!</p>
+        </header>
+
+        <main>
+            <div class="data-loader">
+                <h3>📊 Data Source</h3>
+                <p>Loading data from Battle Cats GitHub repository...</p>
+                <div class="button-group">
+                    <button onclick="loadDataFromGitHub()">Load from GitHub</button>
+                    <button class="secondary" onclick="toggleManualUpload()">Upload Files Manually</button>
+                </div>
+                <div id="manualUpload" class="hidden" style="margin-top: 20px;">
+                    <div style="margin-bottom: 10px;">
+                        <label for="catsFile">Cats File (TSV):</label>
+                        <input type="file" id="catsFile" accept=".tsv,.txt" style="margin-top: 5px;">
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <label for="combosFile">Combos File (TSV):</label>
+                        <input type="file" id="combosFile" accept=".tsv,.txt" style="margin-top: 5px;">
+                    </div>
+                    <button onclick="loadLocalFiles()" style="margin-top: 10px;">Load Local Files</button>
+                </div>
+                <div id="dataStatus" class="data-status hidden"></div>
+            </div>
+
+            <div id="mainControls" class="hidden">
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="effectType">Effect Type (Optional)</label>
+                        <select id="effectType">
+                            <option value="">All Effect Types</option>
+                        </select>
+                        <div class="hint">💡 Leave empty to find all combos (including mixed types) that reach the target strength</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="strength">Minimum Total Strength</label>
+                        <select id="strength" required>
+                            <option value="1">S (Small) - 1</option>
+                            <option value="2">M (Medium) - 2</option>
+                            <option value="3">L (Large) - 3</option>
+                            <option value="4">XL (Extra Large) - 4</option>
+                            <option value="5">Strength 5</option>
+                            <option value="6">Strength 6</option>
+                            <option value="7">Strength 7</option>
+                            <option value="8">Strength 8</option>
+                            <option value="9">Strength 9</option>
+                            <option value="10">Strength 10</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="maxCats">Maximum Cats in Team</label>
+                        <select id="maxCats">
+                            <option value="3">3 cats</option>
+                            <option value="4">4 cats</option>
+                            <option value="5" selected>5 cats</option>
+                            <option value="6">6 cats</option>
+                            <option value="7">7 cats</option>
+                            <option value="8">8 cats</option>
+                            <option value="9">9 cats</option>
+                            <option value="10">10 cats (Full Team)</option>
+                        </select>
+                    </div>
+
+                    <button id="findCombos" onclick="findCombinations()">🔍 Find Combinations</button>
+                </div>
+
+                <div id="loading" class="loading hidden">
+                    <div class="spinner"></div>
+                    <p>Calculating optimal combinations...</p>
+                </div>
+
+                <div id="results" class="results hidden">
+                    <h2>📋 Results</h2>
+                    <div id="resultsCount" class="results-count"></div>
+                    <div id="resultsList" class="results-list"></div>
+                </div>
+
+                <div id="error" class="error hidden">
+                    <h3>⚠️ Error</h3>
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Data from Battle Cats Wiki • Evolution forms automatically included • Created with ❤️ for PONOS</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

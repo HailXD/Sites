@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Palette Converter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="upload-area" id="uploadArea">
+            <div class="upload-text">Click to upload image</div>
+            <div class="upload-subtext">Your image will be converted to pixel art palette</div>
+        </div>
+        <input type="file" id="fileInput" accept="image/*">
+        
+        <div class="preview-container" id="previewContainer">
+            <canvas id="canvas"></canvas>
+            <button class="download-btn" id="downloadBtn">Download as PNG</button>
+        </div>
+        
+        <div class="processing" id="processing">Processing...</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

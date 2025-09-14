@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dynamic Image Stacker</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="input-panel">
+      <h2>Image Stacker</h2>
+      <label for="img-file">Upload Image(s):</label>
+      <input type="file" id="img-file" accept="image/*" multiple>
+
+      <label for="orientation">Stack Orientation:</label>
+      <select id="orientation">
+        <option value="column">Vertical</option>
+        <option value="row">Horizontal</option>
+      </select>
+
+      <button id="download-composite">Download</button>
+    </div>
+
+    <div class="output-panel" id="output-panel">
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

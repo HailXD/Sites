@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel BG Remover</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Pixel BG Remover</h1>
+            <p class="subtitle">Click to remove colors. Use scroll to zoom and spacebar+drag to pan.</p>
+        </header>
+
+        <div class="main-content">
+            <div class="controls">
+                <div class="tool-group">
+                    <label class="tool-label" for="tolerance">Tolerance</label>
+                    <div class="slider-container">
+                        <input type="range" id="tolerance" min="0" max="100" value="5">
+                        <span class="slider-value" id="toleranceValue">5%</span>
+                    </div>
+                </div>
+                
+                <div class="tool-group">
+                    <label class="tool-label" for="expand">Expand Selection</label>
+                    <div class="slider-container">
+                        <input type="range" id="expand" min="0" max="5" value="0">
+                        <span class="slider-value" id="expandValue">0px</span>
+                    </div>
+                </div>
+
+                <div class="tool-group">
+                    <label class="tool-label" for="gapSize">Gap Size</label>
+                    <div class="slider-container">
+                        <input type="range" id="gapSize" min="0" max="5" value="0">
+                        <span class="slider-value" id="gapSizeValue">0px</span>
+                    </div>
+                </div>
+
+                <div class="tool-group">
+                    <label class="checkbox-group" for="floodFill">
+                        <input type="checkbox" id="floodFill" checked>
+                        <span class="checkbox-custom"></span>
+                        Only Connected Pixels
+                    </label>
+                    <label class="checkbox-group" for="smoothEdges" style="margin-top: 10px;">
+                        <input type="checkbox" id="smoothEdges">
+                        <span class="checkbox-custom"></span>
+                        Smooth Edges
+                    </label>
+                </div>
+                
+                <div class="tool-group buttons">
+                    <button onclick="undoLast()">↶ Undo</button>
+                    <button onclick="resetImage()">↺ Reset</button>
+                    <button onclick="uploadNew()">📁 New</button>
+                    <button class="btn-primary" onclick="downloadImage()">💾 Download</button>
+                </div>
+
+                <div class="tool-group tabs-container">
+                    <div class="tabs">
+                        <button class="tab-link active" onclick="openTab(event, 'remove')">Remove</button>
+                        <button class="tab-link" onclick="openTab(event, 'breakdown')">Breakdown</button>
+                        <button class="tab-link" onclick="openTab(event, 'replace')">Replace</button>
+                    </div>
+
+                    <div id="remove" class="tab-content active">
+                        <div class="tool-label">Removed Colors</div>
+                        <div class="color-chips" id="colorChips"></div>
+                    </div>
+
+                    <div id="breakdown" class="tab-content">
+                        <div class="tool-label">Color Breakdown</div>
+                        <div class="color-breakdown" id="colorBreakdown"></div>
+                    </div>
+                    
+                    <div id="replace" class="tab-content">
+                        <div class="tool-label">Replaced Colors</div>
+                        <div class="color-chips" id="replacedColors"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-area">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">✨</div>
+                    <p>Drag & drop or click to upload</p>
+                    <input type="file" id="fileInput" accept="image/*">
+                </div>
+                <canvas id="mainCanvas"></canvas>
+                <div class="canvas-overlay">
+                    <div class="color-info" id="colorInfo">
+                        <div class="color-preview" id="colorPreview"></div>
+                        <div class="color-text" id="colorText"></div>
+                    </div>
+                    <div class="zoom-controls">
+                        <button id="zoomResetBtn">⌖</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="replaceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeReplaceModal()">&times;</span>
+            <h2>Replace Color</h2>
+            <div class="color-to-replace">
+                <span>From:</span>
+                <div class="color-chip-preview" id="replaceFromPreview"></div>
+                <span id="replaceFromName"></span>
+            </div>
+            <p>To:</p>
+            <div class="color-palette" id="colorPalette"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
