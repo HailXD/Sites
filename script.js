@@ -3,42 +3,42 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             folder: 'b26t',
             name: 'b26t',
-            description: 'A simple utility to generate short, time-based strings.'
+            description: 'Base26 UID generator based on time'
         },
         {
             folder: 'bc-combo',
             name: 'Battle Cats Combo Calculator',
-            description: 'A tool to find the best cat combinations for specific combo effects in the game Battle Cats.'
+            description: 'Battle Cats Combo Finder'
         },
         {
             folder: 'pixel-bg-remover',
             name: 'Pixel BG Remover',
-            description: 'A background removal tool for pixel art images.'
+            description: 'Manual Background Remover'
         },
         {
             folder: 'RKBI',
             name: 'RKBI',
-            description: 'A project with a Python backend for image processing.'
+            description: ''
         },
         {
             folder: 'sk-chars',
             name: 'SKChars',
-            description: 'A character viewer or editor for a game or application.'
+            description: 'Soul Knight Character Viewer'
         },
         {
             folder: 'sk-save',
             name: 'SKSave',
-            description: 'A save file utility, likely for a game.'
+            description: ''
         },
         {
             folder: 'stack-images',
             name: 'Image Stacker',
-            description: 'A tool to stack multiple images vertically or horizontally.'
+            description: 'Stack Images'
         },
         {
             folder: 'wplace-fixer',
             name: 'Pixel Palette Converter',
-            description: 'Converts images to a specific pixel art color palette.'
+            description: 'Convert images to wplace palette'
         }
     ];
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         card.className = 'project-card';
 
         const link = document.createElement('a');
-        link.href = `${project.folder}/index.html`;
+        link.href = `${project.folder}`;
 
         const title = document.createElement('h2');
         title.textContent = project.name;
