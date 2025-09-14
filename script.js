@@ -43,13 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
 
     const projectGrid = document.getElementById('project-grid');
+    const params = new URLSearchParams(window.location.search);
+    const showAll = params.has('hail');
 
-    projects.forEach(project => {
+    const filteredProjects = showAll ? projects : projects.filter(p => p.description !== '');
+
+    filteredProjects.forEach(project => {
         const card = document.createElement('div');
         card.className = 'project-card';
 
         const link = document.createElement('a');
-        link.href = `${project.folder}`;
+        link.href = `${project.folder}/index.html`;
 
         const title = document.createElement('h2');
         title.textContent = project.name;
