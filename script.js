@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const projectFolders = [
-        'b26t', 'bc-combo', 'censor', 'pr-edit', 'pixel-bg-remover',
+        'b26t', 'bc-combo', 'censor', 'clearml-convert', 'pr-edit', 'pixel-bg-remover',
         'sk-chars', 'sk-save', 'stack-images', 'wplace-fixer'
     ];
 

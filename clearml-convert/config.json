@@ -1,0 +1,4 @@
+{
+  "name": "ClearML Converter",
+  "description": "For Converting ClearML Keys to/from Environment Variables"
+}
