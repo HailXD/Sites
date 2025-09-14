@@ -6,8 +6,8 @@ let effectTypes = [];
 let allCombosWithDetails = [];
 
 // GitHub URLs
-const GITHUB_CATS_URL = 'https://raw.githubusercontent.com/HailXD/BC-Combo/refs/heads/main/cats.tsv';
-const GITHUB_COMBOS_URL = 'https://raw.githubusercontent.com/HailXD/BC-Combo/refs/heads/main/combos.tsv';
+const GITHUB_CATS_URL = 'cats.tsv';
+const GITHUB_COMBOS_URL = 'combos.tsv';
 
 // Load data from GitHub automatically on page load
 window.addEventListener('DOMContentLoaded', () => {
