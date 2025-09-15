@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarot Stock</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Tarot Stock</h1>
+        <p class="subtitle">Search for any card by name. Use commas for multiple searches (e.g., "fool, ace swords").</p>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search for a card (e.g., moon, reversed ix of cups)...">
+            <button id="randomButton">Random</button>
+        </div>
+        
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Card</th>
+                        <th>Core Meaning<br />(Upright)</th>
+                        <th>Core Meaning<br />(Reversed)</th>
+                        <th>Stock Interpretation<br />(Upright)</th>
+                        <th>Stock Interpretation<br />(Reversed)</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="card-details-container"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

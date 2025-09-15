@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {    const projectFolders = [
-        'b26t', 'bc-combo', 'censor', 'clearml-convert', 'pixel-bg-remover', 'pr-edit', 'sk-chars', 'sk-save', 'stack-images', 'wplace-fixer'
+        'b26t', 'bc-combo', 'censor', 'clearml-convert', 'pixel-bg-remover', 'pr-edit', 'sk-chars', 'stack-images', 'tarot-stocks', 'wplace-fixer'
     ];
 
     const projectGrid = document.getElementById('project-grid');
