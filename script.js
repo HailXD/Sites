@@ -38,10 +38,6 @@ if (
         try {
             const jsonContent = JSON.stringify(projectFolders, null, 4);
             fs.writeFileSync(filePath, jsonContent, "utf-8");
-            console.log(
-                `Successfully updated ${filePath} with ${projectFolders.length} projects.`
-            );
-            console.log("Updated list:", projectFolders);
         } catch (e) {
             console.error(`An unexpected error occurred: ${e}`);
         }
