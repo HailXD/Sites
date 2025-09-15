@@ -1,4 +1,4 @@
-set /p MYVAR="Enter Commit: "
+set /p MYVAR="Commit Message: "
 git pull
 node script.js
 git add .
