@@ -52,8 +52,10 @@ if (
 } else {
     document.addEventListener("DOMContentLoaded", async () => {
         const projectGrid = document.getElementById("project-grid");
-        // Static curated view; no hail toggle or query param
-        try { document.title = "Sites"; } catch {}
+        const params = new URLSearchParams(window.location.search);
+        const showAll = params.has("hail");
+        try { document.title = showAll ? "Sites — Hail" : "Sites"; } catch {}
+        try { document.body.classList.toggle("hail", showAll); } catch {}
 
         let projectFolders = [];
         try {
@@ -79,7 +81,7 @@ if (
         );
 
         const projects = (await Promise.all(fetchPromises)).filter(Boolean);
-        const filteredProjects = projects.filter((p) => p.description !== "");
+        const filteredProjects = showAll ? projects : projects.filter((p) => p.description !== "");
 
         // Optionally include manually-specified external sites (e.g., hail website)
         let manual = [];
@@ -107,7 +109,7 @@ if (
             folder: p.folder
         }));
 
-        const items = [...manualItems, ...normalizedProjects];
+        const items = showAll ? [...manualItems, ...normalizedProjects] : normalizedProjects;
 
         if (items.length === 0) {
             projectGrid.innerHTML = "<p style=\"opacity:.8\">No projects found.</p>";
