@@ -52,8 +52,8 @@ if (
 } else {
     document.addEventListener("DOMContentLoaded", async () => {
         const projectGrid = document.getElementById("project-grid");
-        const params = new URLSearchParams(window.location.search);
-        const showAll = params.has("hail");
+        // Static curated view; no hail toggle or query param
+        try { document.title = "Sites"; } catch {}
 
         let projectFolders = [];
         try {
@@ -79,19 +79,57 @@ if (
         );
 
         const projects = (await Promise.all(fetchPromises)).filter(Boolean);
-        const filteredProjects = showAll
-            ? projects
-            : projects.filter((p) => p.description !== "");
+        const filteredProjects = projects.filter((p) => p.description !== "");
 
-        filteredProjects.forEach((project) => {
+        // Optionally include manually-specified external sites (e.g., hail website)
+        let manual = [];
+        try {
+            const manualResp = await fetch("manual.json");
+            if (manualResp.ok) {
+                manual = await manualResp.json();
+            }
+        } catch {}
+
+        const normalizeManual = (item) => ({
+            name: item.name || "Untitled",
+            description: item.description || "",
+            href: item.url || "#",
+            external: true,
+            folder: null
+        });
+        const manualItems = Array.isArray(manual) ? manual.map(normalizeManual) : [];
+
+        const normalizedProjects = filteredProjects.map((p) => ({
+            name: p.name,
+            description: p.description,
+            href: `${p.folder}/index.html`,
+            external: false,
+            folder: p.folder
+        }));
+
+        const items = [...manualItems, ...normalizedProjects];
+
+        if (items.length === 0) {
+            projectGrid.innerHTML = "<p style=\"opacity:.8\">No projects found.</p>";
+        }
+
+        items.forEach((project) => {
             const card = document.createElement("div");
             card.className = "project-card";
 
             const link = document.createElement("a");
-            link.href = `${project.folder}/index.html`;
+            link.href = project.href;
+            if (project.external) {
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+            }
 
             const title = document.createElement("h2");
             title.textContent = project.name;
+            const isHail =
+                (project.name && project.name.toLowerCase().includes("hail")) ||
+                (project.folder && project.folder.toLowerCase().includes("hail"));
+            if (isHail) card.classList.add("hail");
 
             const description = document.createElement("p");
             description.textContent = project.description;
@@ -101,5 +139,6 @@ if (
             card.appendChild(link);
             projectGrid.appendChild(card);
         });
+        projectGrid.setAttribute("aria-busy", "false");
     });
 }
