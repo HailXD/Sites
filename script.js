@@ -165,9 +165,9 @@ if (
             const noDesc = normalizedProjects.filter((p) => !p.description);
             const hasDesc = normalizedProjects.filter((p) => p.description);
             // Top section: projects with blank descriptions
-            renderSection(projectGrid, "No Description", noDesc);
+            renderSection(projectGrid, "NIL", noDesc);
             // Bottom section: described projects + any manual links
-            renderSection(projectGrid, "Projects", [...hasDesc, ...manualItems]);
+            renderSection(projectGrid, "Main", [...hasDesc, ...manualItems]);
         } else {
             // Default view: only described projects
             renderCardsInto(projectGrid, totalItems);
