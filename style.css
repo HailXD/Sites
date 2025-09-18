@@ -60,6 +60,24 @@ body {
     gap: 30px;
 }
 
+/* In hail mode, switch to stacked sections */
+body.hail #project-grid { display: block; }
+
+/* Reusable grid for section contents */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.project-section { margin-bottom: 28px; }
+.project-section h3 {
+    margin: 0 0 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--muted);
+}
+
 .project-card {
     background: linear-gradient(180deg, rgba(23,23,42,0.9), rgba(23,23,42,0.75));
     border-radius: 16px;

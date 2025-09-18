@@ -54,7 +54,7 @@ if (
         const projectGrid = document.getElementById("project-grid");
         const params = new URLSearchParams(window.location.search);
         const showAll = params.has("hail");
-        try { document.title = showAll ? "Sites — Hail" : "Sites"; } catch {}
+        try { document.title = showAll ? "Sites - Hail" : "Sites"; } catch {}
         try { document.body.classList.toggle("hail", showAll); } catch {}
 
         let projectFolders = [];
@@ -109,13 +109,14 @@ if (
             folder: p.folder
         }));
 
-        const items = showAll ? [...manualItems, ...normalizedProjects] : normalizedProjects;
-
-        if (items.length === 0) {
+        const totalItems = showAll ? [...manualItems, ...normalizedProjects] : normalizedProjects;
+        if (totalItems.length === 0) {
             projectGrid.innerHTML = "<p style=\"opacity:.8\">No projects found.</p>";
+            projectGrid.setAttribute("aria-busy", "false");
+            return;
         }
 
-        items.forEach((project) => {
+        const createCard = (project) => {
             const card = document.createElement("div");
             card.className = "project-card";
 
@@ -134,13 +135,44 @@ if (
             if (isHail) card.classList.add("hail");
 
             const description = document.createElement("p");
-            description.textContent = project.description;
+            description.textContent = project.description || "";
 
             link.appendChild(title);
             link.appendChild(description);
             card.appendChild(link);
-            projectGrid.appendChild(card);
-        });
+            return card;
+        };
+
+        const renderCardsInto = (container, items) => {
+            items.forEach((project) => container.appendChild(createCard(project)));
+        };
+
+        const renderSection = (root, titleText, items) => {
+            if (!items || items.length === 0) return;
+            const section = document.createElement("section");
+            section.className = "project-section";
+            const h = document.createElement("h3");
+            h.textContent = titleText;
+            section.appendChild(h);
+            const grid = document.createElement("div");
+            grid.className = "project-grid";
+            renderCardsInto(grid, items);
+            section.appendChild(grid);
+            root.appendChild(section);
+        };
+
+        if (showAll) {
+            const noDesc = normalizedProjects.filter((p) => !p.description);
+            const hasDesc = normalizedProjects.filter((p) => p.description);
+            // Top section: projects with blank descriptions
+            renderSection(projectGrid, "No Description", noDesc);
+            // Bottom section: described projects + any manual links
+            renderSection(projectGrid, "Projects", [...hasDesc, ...manualItems]);
+        } else {
+            // Default view: only described projects
+            renderCardsInto(projectGrid, totalItems);
+        }
         projectGrid.setAttribute("aria-busy", "false");
     });
 }
+
