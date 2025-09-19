@@ -34,7 +34,8 @@ if (
     };
 
     const updateProjectsJson = (projectFolders) => {
-        const filePath = "projects.json";
+        // Write into the browser folder alongside this script
+        const filePath = require("path").join(__dirname, "projects.json");
         try {
             const jsonContent = JSON.stringify(projectFolders, null, 4);
             fs.writeFileSync(filePath, jsonContent, "utf-8");
@@ -59,7 +60,7 @@ if (
 
         let projectFolders = [];
         try {
-            const response = await fetch("projects.json");
+            const response = await fetch("browser/projects.json");
             if (!response.ok) {
                 throw new Error("Network response was not ok");
             }
@@ -67,7 +68,7 @@ if (
         } catch (error) {
             console.error("Error loading projects.json:", error);
             projectGrid.innerHTML =
-                "<p>Could not load project list. Please run `node script.js` locally to generate it.</p>";
+                "<p>Could not load project list. Please run `node browser/script.js` locally to generate it.</p>";
             return;
         }
 
