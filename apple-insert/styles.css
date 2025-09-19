@@ -50,6 +50,8 @@ body {
 
 #bookmarklet-output { width: 100%; min-height: 120px; background: #0f1320; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-top: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; }
 
+#config-text { width: 100%; min-height: 120px; background: #0f1320; color: var(--text); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-top: 8px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 12px; }
+
 /* Preview styles (approximate RAP2 look) */
 .preview { background: #0f1320; border: 1px solid var(--border); border-radius: 8px; padding: 10px; }
 .purchase { border: 1px solid #22304a; border-radius: 8px; margin-bottom: 10px; overflow: hidden; background: #0c111a; }
@@ -67,4 +69,3 @@ body {
 .pli-title { font-weight: 600; }
 .pli-publisher { color: var(--muted); font-size: 13px; }
 .pli-price { font-weight: 600; }
-

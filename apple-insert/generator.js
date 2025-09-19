@@ -93,35 +93,17 @@ function applyConfig(cfg = {}) {
   }
 }
 
-function exportConfig() {
-  const cfg = getConfig();
-  const json = JSON.stringify(cfg, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const nameDate = (cfg.date || new Date().toISOString().slice(0,10));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `apple-insert-config-${nameDate}.json`;
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => {
-    URL.revokeObjectURL(url);
-    a.remove();
-  }, 0);
-}
-
-function importConfigFromFile(file) {
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      const cfg = JSON.parse(reader.result);
-      applyConfig(cfg);
-    } catch (e) {
-      alert('Invalid JSON file.');
-    }
-  };
-  reader.readAsText(file);
+function importConfigFromTextarea() {
+  const ta = document.getElementById('config-text');
+  if (!ta) return;
+  const json = ta.value.trim();
+  if (!json) return;
+  try {
+    const cfg = JSON.parse(json);
+    applyConfig(cfg);
+  } catch (e) {
+    alert('Invalid JSON in textarea.');
+  }
 }
 
 function buildPurchaseHTML(state) {
@@ -229,6 +211,15 @@ function render() {
   const bm = buildBookmarklet(html);
   $('#bookmarklet-output').value = bm;
   $('#drag-link').setAttribute('href', bm);
+
+  // Keep config JSON textarea in sync with current state unless user is editing it
+  const ta = document.getElementById('config-text');
+  if (ta && document.activeElement !== ta) {
+    try {
+      const cfg = getConfig();
+      ta.value = JSON.stringify(cfg, null, 2);
+    } catch {}
+  }
 }
 
 function addEntry(defaults = {}) {
@@ -279,13 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('#currency').addEventListener('input', render);
   $('#date').addEventListener('input', render);
   $('#copy').addEventListener('click', copyBookmarklet);
-  $('#export-config')?.addEventListener('click', exportConfig);
-  $('#import-config')?.addEventListener('click', () => $('#import-file').click());
-  $('#import-file')?.addEventListener('change', (e) => {
-    const file = e.target.files && e.target.files[0];
-    if (file) importConfigFromFile(file);
-    e.target.value = '';
-  });
+  $('#import-config')?.addEventListener('click', importConfigFromTextarea);
 
   // Initial render
   render();
