@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Painter</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:,">
+  <meta name="description" content="Draw pixel art with a color picker and export as PNG.">
+  <style>
+    /* Prevent iOS zoom on inputs */
+    input, select, button { font-size: 16px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>🎨 Pixel Painter</h1>
+      <p>Create pixel art, set canvas size, and download as PNG.</p>
+    </header>
+
+    <main class="main">
+      <section class="controls">
+        <div class="row">
+          <label class="control">
+            <span>Color</span>
+            <input id="color" type="color" value="#8b5cf6" aria-label="Brush color">
+          </label>
+          <label class="control">
+            <span>Width (px)</span>
+            <input id="width" type="number" min="1" max="512" value="16" aria-label="Canvas width">
+          </label>
+          <label class="control">
+            <span>Height (px)</span>
+            <input id="height" type="number" min="1" max="512" value="16" aria-label="Canvas height">
+          </label>
+          <label class="control">
+            <span>Zoom</span>
+            <input id="scale" type="range" min="4" max="40" value="20" aria-label="Zoom level">
+          </label>
+        </div>
+        <div class="row">
+          <div class="btns">
+            <button id="newCanvas">New Canvas</button>
+            <button id="clear">Clear</button>
+            <button id="eraser" class="secondary" aria-pressed="false">Eraser</button>
+            <button id="download" class="accent">Download PNG</button>
+          </div>
+          <label class="control checkbox">
+            <input id="gridToggle" type="checkbox" checked>
+            <span>Show grid</span>
+          </label>
+        </div>
+      </section>
+
+      <section class="stage">
+        <div id="canvasWrap" class="wrap">
+          <canvas id="canvas" width="16" height="16"></canvas>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
