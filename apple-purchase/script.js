@@ -31,6 +31,77 @@ function deepClone(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
+// ---- YAML support ----
+// Load a YAML parser dynamically (js-yaml) and provide serialize/deserialize helpers.
+let YAML_LIB = null;
+
+function loadYamlLib() {
+  if (window.jsyaml) {
+    YAML_LIB = window.jsyaml;
+    return Promise.resolve(YAML_LIB);
+  }
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js';
+    s.async = true;
+    s.onload = () => {
+      YAML_LIB = window.jsyaml || null;
+      if (YAML_LIB) resolve(YAML_LIB); else reject(new Error('YAML lib loaded but not available'));
+    };
+    s.onerror = () => reject(new Error('Failed to load YAML library'));
+    document.head.appendChild(s);
+  });
+}
+
+function quoteYamlString(s) {
+  // JSON string quoting is valid YAML 1.2, so we can reuse it for safety.
+  return JSON.stringify(String(s ?? ''));
+}
+
+function naiveYamlDump(obj) {
+  // Very small, structure-specific dumper for our config shape.
+  // Produces YAML like:
+  // receipts:\n  //   - date: "..."\n  //     entries:\n  //       - item: "..."\n  //         price: "..."
+  const lines = [];
+  const indent = (n) => '  '.repeat(n);
+  lines.push('receipts:');
+  const receipts = Array.isArray(obj?.receipts) ? obj.receipts : [];
+  receipts.forEach((r) => {
+    lines.push(indent(1) + '- date: ' + quoteYamlString(r?.date ?? ''));
+    lines.push(indent(2) + 'entries:');
+    const entries = Array.isArray(r?.entries) ? r.entries : [];
+    entries.forEach((e) => {
+      lines.push(indent(2) + '- item: ' + quoteYamlString(e?.item ?? ''));
+      lines.push(indent(3) + 'price: ' + quoteYamlString(e?.price ?? ''));
+    });
+  });
+  return lines.join('\n');
+}
+
+function serializeConfigToYAML(cfg) {
+  try {
+    if (YAML_LIB && typeof YAML_LIB.dump === 'function') {
+      // Options: indent 2, avoid anchors, unlimited line width
+      return YAML_LIB.dump(cfg, { noRefs: true, indent: 2, lineWidth: -1 });
+    }
+  } catch {}
+  return naiveYamlDump(cfg);
+}
+
+function deserializeConfigFromYAML(text) {
+  if (YAML_LIB && typeof YAML_LIB.load === 'function') {
+    return YAML_LIB.load(text);
+  }
+  // Fallback: try JSON (valid YAML 1.2) then error
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    const err = new Error('YAML parser unavailable and content is not JSON-compatible YAML.');
+    err.cause = e;
+    throw err;
+  }
+}
+
 function parsePriceCents(text) {
   if (!text || typeof text !== 'string') return 0;
   let s = text.trim();
@@ -386,21 +457,21 @@ async function renderPreview() {
 
 function syncConfigText() {
   const out = exportConfig();
-  $('#config-text').value = JSON.stringify(out, null, 2);
+  $('#config-text').value = serializeConfigToYAML(out);
 }
 
 function importFromTextarea() {
   const raw = $('#config-text').value.trim();
   if (!raw) return;
   try {
-    const parsed = JSON.parse(raw);
+    const parsed = deserializeConfigFromYAML(raw);
     let receipts = [];
     if (Array.isArray(parsed)) {
       receipts = parsed;
     } else if (parsed && Array.isArray(parsed.receipts)) {
       receipts = parsed.receipts;
     } else {
-      alert('Invalid JSON: expected an array or an object with a "receipts" array.');
+      alert('Invalid YAML: expected an array or an object with a "receipts" array.');
       return;
     }
     // normalize
@@ -419,7 +490,7 @@ function importFromTextarea() {
     setState({ receipts: norm });
   } catch (err) {
     console.error(err);
-    alert('Failed to parse JSON. Please check the syntax.');
+    alert('Failed to parse YAML. Please check the syntax.');
   }
 }
 
@@ -458,7 +529,12 @@ function setupGlobalActions() {
 }
 
 // Init
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   setupGlobalActions();
+  try {
+    await loadYamlLib();
+  } catch (e) {
+    console.warn('YAML library could not be loaded; falling back to minimal YAML support.', e);
+  }
   renderAll();
 });
