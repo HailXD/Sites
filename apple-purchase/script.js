@@ -3,6 +3,15 @@
 
 const DEFAULT_ICON = 'Assets/icon.png';
 
+// Format current date like "21 JAN 2016"
+function formatCurrentDate() {
+  const d = new Date();
+  const day = d.getDate(); // no leading zero per example
+  const month = d.toLocaleString('en-US', { month: 'short' }).toUpperCase();
+  const year = d.getFullYear();
+  return `${day} ${month} ${year}`;
+}
+
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
 
@@ -11,13 +20,13 @@ function defaultEntry() {
 }
 
 function defaultReceipt() {
-  return { date: '', entries: [defaultEntry()] };
+  return { date: formatCurrentDate(), entries: [defaultEntry()] };
 }
 
 let state = {
   receipts: [
     {
-      date: '21 JAN 2016',
+      date: formatCurrentDate(),
       entries: [
         { item: 'Limited Sale: Platinum', price: 'S$ 108.98', iconDataUrl: null }
       ]
