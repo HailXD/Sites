@@ -267,15 +267,44 @@ function loadImage(src) {
 
 async function ensureAssetsLoaded() {
   if (IMG.header && IMG.entry && IMG.footer && IMG.defaultIcon) return;
-  const [header, entry, footer, icon] = await Promise.all([
-    loadImage('Assets/header_covered.png'),
-    loadImage('Assets/entry_covered.png'),
-    loadImage('Assets/footer_covered.png'),
+  // Load base images and build covered variants client-side
+  const [headerBase, entryBase, footerBase, icon] = await Promise.all([
+    loadImage('Assets/header.png'),
+    loadImage('Assets/entry.png'),
+    loadImage('Assets/footer.png'),
     loadImage(DEFAULT_ICON),
   ]);
-  IMG.header = header;
-  IMG.entry = entry;
-  IMG.footer = footer;
+
+  // Helper to clone image to canvas and draw a cover rectangle
+  const toCovered = (img, rects) => {
+    const c = makeCanvas(img.width, img.height);
+    const ctx = c.getContext('2d');
+    ctx.drawImage(img, 0, 0);
+    for (const r of rects) {
+      const { x, y, w, h, fill } = r;
+      ctx.fillStyle = fill;
+      ctx.fillRect(x, y, w, h);
+    }
+    return c;
+  };
+
+  // Match Overlay.py cover regions and colors
+  // header_covered: rectangle(63, 0, 285, 28) fill (28,28,30)
+  const headerCovered = toCovered(headerBase, [
+    { x: 63, y: 0, w: 285 - 63, h: 28 - 0, fill: 'rgb(28,28,30)' },
+  ]);
+  // entry_covered: rectangle(0, 10, w, 61) fill (44,44,46)
+  const entryCovered = toCovered(entryBase, [
+    { x: 0, y: 10, w: entryBase.width, h: 61 - 10, fill: 'rgb(44,44,46)' },
+  ]);
+  // footer_covered: rectangle(890, 89, 1062, 133) fill (44,44,46)
+  const footerCovered = toCovered(footerBase, [
+    { x: 890, y: 89, w: 1062 - 890, h: 133 - 89, fill: 'rgb(44,44,46)' },
+  ]);
+
+  IMG.header = headerCovered;
+  IMG.entry = entryCovered;
+  IMG.footer = footerCovered;
   IMG.defaultIcon = icon;
 }
 
