@@ -19,8 +19,7 @@ let state = {
     {
       date: '21 JAN 2016',
       entries: [
-        { item: 'Limited Sale: Platinum', price: 'S$ 108.98', iconDataUrl: null },
-        { item: 'Cat Food Pack', price: 'S$ 2.58', iconDataUrl: null }
+        { item: 'Limited Sale: Platinum', price: 'S$ 108.98', iconDataUrl: null }
       ]
     }
   ]
