@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Apple-Style Receipt Builder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="left">
+        <button id="add-receipt-btn" class="btn primary">Add Receipt</button>
+      </div>
+      <div class="right">
+        <button id="import-btn" class="btn">Import</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="editor">
+        <h2 class="section-title">Receipts & Entries</h2>
+        <div id="editor-root" class="editor-root"></div>
+      </section>
+
+      <section class="preview">
+        <h2 class="section-title">Live Preview</h2>
+        <div class="preview-actions">
+          <button id="download-btn" class="btn">Download PNG</button>
+        </div>
+        <div id="preview-root" class="preview-root"></div>
+      </section>
+
+      <section class="config">
+        <h2 class="section-title">Config (editable JSON)</h2>
+        <textarea id="config-text" class="config-text" spellcheck="false"></textarea>
+        <div class="config-help">
+          <p>Copy/paste JSON here. Click Import to load it.</p>
+          <p>Icons aren’t persisted; default is <code>Assets/icon.png</code>.</p>
+        </div>
+      </section>
+    </main>
+
+    <template id="tpl-receipt">
+      <div class="receipt-editor">
+        <div class="receipt-header-row">
+          <label>Date</label>
+          <input type="text" class="input date" placeholder="e.g. 21 JAN 2016" />
+          <div class="row-actions">
+            <button class="btn small duplicate-receipt">Duplicate</button>
+            <button class="btn small danger delete-receipt">Delete</button>
+          </div>
+        </div>
+        <div class="entries"></div>
+        <div class="entry-controls">
+          <button class="btn small add-entry">Add Entry</button>
+        </div>
+      </div>
+    </template>
+
+    <template id="tpl-entry">
+      <div class="entry-editor">
+        <div class="entry-fields">
+          <div class="field-row">
+            <label>Item</label>
+            <input type="text" class="input item" placeholder="Item name" />
+          </div>
+          <div class="field-row pair">
+            <label>Price</label>
+            <input type="text" class="input price" placeholder="S$ 1.98" />
+            <label>Icon</label>
+            <div class="icon-uploader">
+              <button type="button" class="btn small icon-upload-btn">Choose Icon</button>
+              <span class="icon-filename subtle">(no file)</span>
+              <input type="file" class="icon-file" accept="image/*" hidden />
+            </div>
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn small duplicate-entry">Duplicate</button>
+          <button class="btn small danger delete-entry">Delete</button>
+        </div>
+      </div>
+    </template>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
