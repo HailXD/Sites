@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Row Remover</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="app-shell">
+        <header class="app-header">
+            <h1>Image Row Remover</h1>
+            <p class="subtitle">Automatically drop any row that contains the yellow highlight</p>
+        </header>
+
+        <section class="color-info" aria-live="polite">
+            <span class="label">Target color</span>
+            <span class="swatch" aria-hidden="true"></span>
+            <span class="value">RGB(254, 248, 0) ± 5 tolerance</span>
+        </section>
+
+        <section class="upload-panel" id="uploadSection" role="button" tabindex="0">
+            <div class="icon" aria-hidden="true">📤</div>
+            <label for="imageInput" class="upload-text">Drop an image or click to browse</label>
+            <input type="file" id="imageInput" accept="image/*" hidden>
+            <p class="help-text">Supported formats: JPG, PNG, GIF, WebP</p>
+        </section>
+
+        <p class="loading" id="loading" role="status" aria-live="polite">Processing image...</p>
+
+        <section class="preview-grid">
+            <article class="preview">
+                <h2>Original</h2>
+                <div class="frame">
+                    <div id="originalImage" class="placeholder">No image uploaded yet</div>
+                </div>
+            </article>
+            <article class="preview">
+                <h2>Processed</h2>
+                <div class="frame">
+                    <div id="processedImage" class="placeholder">Upload an image to get started</div>
+                </div>
+            </article>
+        </section>
+
+        <section class="stats" id="stats" aria-live="polite">
+            <div class="stat">
+                <span class="stat-value" id="originalRows">-</span>
+                <span class="stat-label">Original rows</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="removedRows">-</span>
+                <span class="stat-label">Removed rows</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="finalRows">-</span>
+                <span class="stat-label">Final rows</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value" id="reduction">-</span>
+                <span class="stat-label">Size reduction</span>
+            </div>
+        </section>
+
+        <div class="controls">
+            <button class="btn" id="downloadBtn" disabled>Download result</button>
+            <button class="btn secondary" id="clearBtn">Clear</button>
+        </div>
+    </main>
+
+    <canvas id="canvas" hidden></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
