@@ -4,7 +4,6 @@
     const originalImageContainer = document.getElementById("originalImage");
     const processedImageContainer = document.getElementById("processedImage");
     const loadingIndicator = document.getElementById("loading");
-    const statsPanel = document.getElementById("stats");
     const downloadBtn = document.getElementById("downloadBtn");
     const clearBtn = document.getElementById("clearBtn");
     const canvas = document.getElementById("canvas");
@@ -14,22 +13,8 @@
     let processedDataUrl = null;
     let fileName = "processed_image.png";
 
-    const statElements = {
-        original: document.getElementById("originalRows"),
-        removed: document.getElementById("removedRows"),
-        final: document.getElementById("finalRows"),
-        reduction: document.getElementById("reduction"),
-    };
-
     function setLoading(isActive) {
         loadingIndicator.classList.toggle("is-visible", isActive);
-    }
-
-    function resetStatValues() {
-        Object.values(statElements).forEach((element) => {
-            element.textContent = "-";
-        });
-        statsPanel.classList.remove("show");
     }
 
     function showPlaceholder(target, message) {
@@ -54,19 +39,6 @@
         element.src = dataUrl;
     }
 
-    function updateStats(originalHeight, finalHeight) {
-        const removed = originalHeight - finalHeight;
-        const reduction = originalHeight
-            ? ((removed / originalHeight) * 100).toFixed(1)
-            : "0.0";
-
-        statElements.original.textContent = originalHeight;
-        statElements.removed.textContent = removed;
-        statElements.final.textContent = finalHeight;
-        statElements.reduction.textContent = `${reduction}%`;
-        statsPanel.classList.add("show");
-    }
-
     function handleImage(file) {
         if (!file || !file.type.startsWith("image/")) {
             showPlaceholder(processedImageContainer, "Unsupported file type. Please choose an image.");
@@ -85,7 +57,6 @@
                 showPlaceholder(processedImageContainer, "Processing...");
                 downloadBtn.disabled = true;
                 processedDataUrl = null;
-                resetStatValues();
 
                 requestAnimationFrame(processImage);
             };
@@ -157,7 +128,6 @@
 
             processedDataUrl = newCanvas.toDataURL("image/png");
             displayProcessed(processedDataUrl);
-            updateStats(height, newHeight);
             downloadBtn.disabled = false;
             setLoading(false);
         }, 30);
@@ -185,7 +155,6 @@
         showPlaceholder(processedImageContainer, "Upload an image to get started");
         downloadBtn.disabled = true;
         setLoading(false);
-        resetStatValues();
     }
 
     uploadSection.addEventListener("dragover", (event) => {
