@@ -183,7 +183,21 @@ function TarotApp() {
     dealFromPicks(picks);
   };
 
-  const onReset = () => { setDealt([]); setInput(""); setError(null); };
+  const onReset = () => {
+    // stop any ongoing shuffle animation
+    animTimersRef.current.forEach((id) => clearTimeout(id));
+    animTimersRef.current = [];
+    setDeckAnimating(false);
+    setAnimDeck([]);
+
+    // reset dealt/input/errors
+    setDealt([]);
+    setInput("");
+    setError(null);
+
+    // restore deck to original unshuffled, upright order
+    setShuffledDeck(fullDeck.map((c) => ({ ...c, reversed: false })));
+  };
 
   useEffect(() => {
     // already shuffled on load via useState init
@@ -219,7 +233,7 @@ function TarotApp() {
                 <span className="sr-only">Notepad</span>
               </a>
               <button onClick={doShuffle} className="btn btn-primary" title="Shuffle the full deck">Shuffle</button>
-              <button onClick={onReset} className="btn btn-outline" title="Clear selection">Reset</button>
+              <button onClick={onReset} className="btn btn-outline" title="Reset to unshuffled deck">Reset</button>
             </div>
           </div>
         </header>
