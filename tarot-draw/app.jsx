@@ -285,7 +285,7 @@ function TarotApp() {
                                         Deal
                                     </button>
                                     <a
-                                        href="https://text.is/"
+                                        href="https://https://chatgpt.com/g/g-p-67997c71dd008191a3bf4234aea323f6-hail"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="btn btn-outline"
