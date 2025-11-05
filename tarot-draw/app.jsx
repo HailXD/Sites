@@ -115,7 +115,6 @@ function TarotApp() {
     const [animDeck, setAnimDeck] = useState([]);
     const animTimersRef = useRef([]);
     const [drawCount, setDrawCount] = useState(5);
-    const [copiedSpread, setCopiedSpread] = useState(false);
     const copyTimerRef = useRef(null);
 
     const spreadText = useMemo(
@@ -129,9 +128,7 @@ function TarotApp() {
     const copySpread = () => {
         if (!spreadText) return;
         const finish = () => {
-            setCopiedSpread(true);
             if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
-            copyTimerRef.current = setTimeout(() => setCopiedSpread(false), 1200);
         };
         try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -437,12 +434,8 @@ function TarotApp() {
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" || e.key === " ") copySpread();
                                 }}
-                                title={copiedSpread ? "Copied!" : "Click to copy"}
                             >
                                 {spreadText}
-                                {copiedSpread ? (
-                                    <span className="ml-2 text-emerald-300">(Copied)</span>
-                                ) : null}
                             </div>
                         )}
                     </section>
