@@ -518,16 +518,6 @@ function TarotApp() {
                         Card data is generic; no copyrighted card art is used.
                     </footer>
                 </div>
-
-                <aside className="min-h-screen">
-                    <div className="sticky top-0 h-screen">
-                        <iframe
-                            src="https://text.is/"
-                            title="Notes"
-                            className="w-full h-full border-0"
-                        />
-                    </div>
-                </aside>
             </div>
         </div>
     );
