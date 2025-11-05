@@ -209,32 +209,6 @@ function TarotApp() {
         <header className="sticky top-0 z-20 glass-panel">
           <div className="mx-auto max-w-3xl px-4 py-4 flex items-center gap-4">
             <div className="text-xl font-semibold tracking-wide">Tarot Draw</div>
-            <div className="ml-auto flex items-center gap-2">
-              <a
-                href="https://text.is/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-outline"
-                title="Open notepad"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.6"
-                  aria-hidden="true"
-                >
-                  <rect x="5" y="3" width="14" height="18" rx="2" />
-                  <path d="M9 7h6M7 11h10M7 15h10" />
-                </svg>
-                <span className="sr-only">Notepad</span>
-              </a>
-              <button onClick={doShuffle} className="btn btn-primary" title="Shuffle the full deck">Shuffle</button>
-              <button onClick={onReset} className="btn btn-outline" title="Reset to unshuffled deck">Reset</button>
-            </div>
           </div>
         </header>
 
@@ -254,7 +228,33 @@ function TarotApp() {
               </label>
 
               <div className="flex items-center gap-2">
-                <button onClick={onDeal} className="btn btn-primary" title="Deal the selected cards">Deal</button>
+                <div className="flex items-center gap-2">
+                  <button onClick={doShuffle} className="btn btn-primary" title="Shuffle the full deck">Shuffle</button>
+                  <button onClick={onDeal} className="btn btn-primary" title="Deal the selected cards">Deal</button>
+                  <button onClick={onReset} className="btn btn-outline" title="Reset to unshuffled deck">Reset</button>
+                  <a
+                    href="https://text.is/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-outline"
+                    title="Open notepad"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      aria-hidden="true"
+                    >
+                      <rect x="5" y="3" width="14" height="18" rx="2" />
+                      <path d="M9 7h6M7 11h10M7 15h10" />
+                    </svg>
+                    <span className="sr-only">Notepad</span>
+                  </a>
+                </div>
                 <div className="ml-auto flex items-center gap-2">
                   <label className="text-sm" style={{color: 'var(--text-muted)'}}>Draw</label>
                   <select
