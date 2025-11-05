@@ -115,6 +115,53 @@ function TarotApp() {
     const [animDeck, setAnimDeck] = useState([]);
     const animTimersRef = useRef([]);
     const [drawCount, setDrawCount] = useState(5);
+    const [copiedSpread, setCopiedSpread] = useState(false);
+    const copyTimerRef = useRef(null);
+
+    const spreadText = useMemo(
+        () =>
+            dealt
+                .map((d) => `${d.card.name}${d.reversed ? " (Reversed)" : ""}`)
+                .join(", "),
+        [dealt]
+    );
+
+    const copySpread = () => {
+        if (!spreadText) return;
+        const finish = () => {
+            setCopiedSpread(true);
+            if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+            copyTimerRef.current = setTimeout(() => setCopiedSpread(false), 1200);
+        };
+        try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(spreadText).then(finish).catch(() => {
+                    // Fallback
+                    const ta = document.createElement("textarea");
+                    ta.value = spreadText;
+                    ta.style.position = "fixed";
+                    ta.style.opacity = "0";
+                    document.body.appendChild(ta);
+                    ta.select();
+                    try { document.execCommand("copy"); } catch (_) {}
+                    document.body.removeChild(ta);
+                    finish();
+                });
+            } else {
+                const ta = document.createElement("textarea");
+                ta.value = spreadText;
+                ta.style.position = "fixed";
+                ta.style.opacity = "0";
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand("copy"); } catch (_) {}
+                document.body.removeChild(ta);
+                finish();
+            }
+        } catch (_) {
+            // ignore
+        }
+    };
 
     const doShuffle = () => {
         setDealt([]);
@@ -382,15 +429,20 @@ function TarotApp() {
                                 No cards dealt yet.
                             </div>
                         ) : (
-                            <div className="panel p-3 text-sm">
-                                {dealt
-                                    .map(
-                                        (d) =>
-                                            `${d.card.name}${
-                                                d.reversed ? " (Reversed)" : ""
-                                            }`
-                                    )
-                                    .join(", ")}
+                            <div
+                                className="panel p-3 text-sm cursor-pointer select-text"
+                                role="button"
+                                tabIndex={0}
+                                onClick={copySpread}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") copySpread();
+                                }}
+                                title={copiedSpread ? "Copied!" : "Click to copy"}
+                            >
+                                {spreadText}
+                                {copiedSpread ? (
+                                    <span className="ml-2 text-emerald-300">(Copied)</span>
+                                ) : null}
                             </div>
                         )}
                     </section>
