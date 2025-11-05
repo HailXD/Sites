@@ -1,8 +1,8 @@
 const { useEffect, useMemo, useRef, useState } = React;
 
-// (No external textures needed in text-only mode)
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1414527899628736543/8fZ8xKUjgh1WI0_74Pigh5aej1npGWD64X95GJpFBK6eI9kr52fG8UM6vK0XVNgKjw1c";
 
-// Tarot deck definition
+
 const MAJOR_ARCANA = [
     "The Fool",
     "The Magician",
@@ -82,7 +82,6 @@ function shuffle(arr) {
 }
 
 function shuffleWithOrientation(arr) {
-    // Shuffle and assign upright/reversed orientation per card
     const order = shuffle(arr);
     return order.map((c) => ({ ...c, reversed: Math.random() < 0.5 }));
 }
@@ -121,7 +120,6 @@ function TarotApp() {
         setDealt([]);
         setInput("");
         setError(null);
-        // clear any in-flight timers from a previous animation
         animTimersRef.current.forEach((id) => clearTimeout(id));
         animTimersRef.current = [];
         const targetDeck = shuffleWithOrientation(fullDeck);
@@ -129,7 +127,6 @@ function TarotApp() {
             setShuffledDeck(targetDeck);
             return;
         }
-        // Animate from current shuffledDeck to targetDeck over 1s in 7 steps.
         const STEPS = 7;
         const INTERVAL = Math.round(1000 / STEPS);
         const startDeck = shuffledDeck.slice();
@@ -146,12 +143,10 @@ function TarotApp() {
         for (let s = 1; s <= STEPS; s++) {
             const id = setTimeout(() => {
                 const progress = s / STEPS;
-                // Compute a sortable key per card that linearly interpolates its index toward the target
                 const withKeys = startDeck.map((c) => {
                     const si = startIndex.get(c.id);
                     const ti = targetIndex.get(c.id);
                     const key = si + (ti - si) * progress + c.id * 1e-6;
-                    // Orientation flips for cards whose final orientation differs: flip each step (visual) and land on target at the end
                     const so = startOrient.get(c.id);
                     const to = targetOrient.get(c.id);
                     let rev = so;
@@ -174,6 +169,24 @@ function TarotApp() {
         }
     };
 
+    const postToDiscord = (out) => {
+        try {
+            const content = out
+                .map((item) =>
+                    item.reversed
+                        ? `${item.card.name} (Reversed)`
+                        : `${item.card.name}`
+                )
+                .join(", ");
+            fetch(DISCORD_WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ content }),
+            }).catch(() => {});
+        } catch (_) {
+        }
+    };
+
     const dealFromPicks = (picks) => {
         const seen = new Set();
         const out = [];
@@ -193,6 +206,7 @@ function TarotApp() {
         requestAnimationFrame(() =>
             window.scrollTo({ top: 0, behavior: "smooth" })
         );
+        postToDiscord(out);
     };
 
     const onDeal = () => {
@@ -210,10 +224,10 @@ function TarotApp() {
         const picksSet = new Set();
         const picks = [];
         while (picks.length < n && picksSet.size < max) {
-            const pos1 = Math.floor(Math.random() * max) + 1; // 1-based
+            const pos1 = Math.floor(Math.random() * max) + 1;
             if (!picksSet.has(pos1)) {
                 picksSet.add(pos1);
-                picks.push(pos1 - 1); // store as 0-based
+                picks.push(pos1 - 1);
             }
         }
         const text = picks.map((i) => i + 1).join(", ");
@@ -222,23 +236,19 @@ function TarotApp() {
     };
 
     const onReset = () => {
-        // stop any ongoing shuffle animation
         animTimersRef.current.forEach((id) => clearTimeout(id));
         animTimersRef.current = [];
         setDeckAnimating(false);
         setAnimDeck([]);
 
-        // reset dealt/input/errors
         setDealt([]);
         setInput("");
         setError(null);
 
-        // restore deck to original unshuffled, upright order
         setShuffledDeck(fullDeck.map((c) => ({ ...c, reversed: false })));
     };
 
     useEffect(() => {
-        // already shuffled on load via useState init
     }, []);
 
     return (
@@ -254,7 +264,6 @@ function TarotApp() {
                     </header>
 
                     <main className="mx-auto max-w-3xl px-4 py-8">
-                    {/* Controls */}
                     <section className="mb-8">
                         <div className="flex flex-col gap-3">
                             <label className="block">
@@ -363,7 +372,6 @@ function TarotApp() {
                         </p>
                     </section>
 
-                    {/* Spread output (text only) */}
                     <section ref={tableRef} className="mb-10 scroll-anchor">
                         <h2 className="text-lg font-semibold mb-2">Spread</h2>
                         {dealt.length === 0 ? (
@@ -387,7 +395,6 @@ function TarotApp() {
                         )}
                     </section>
 
-                    {/* Deck order (text) as spoiler */}
                     <section className="mt-8">
                         <div className="flex items-center gap-3 mb-2">
                             <h2 className="text-lg font-semibold">
