@@ -116,6 +116,7 @@ function TarotApp() {
     const animTimersRef = useRef([]);
     const [drawCount, setDrawCount] = useState(5);
     const copyTimerRef = useRef(null);
+    const [spreadCopied, setSpreadCopied] = useState(false);
 
     const spreadText = useMemo(
         () =>
@@ -129,6 +130,8 @@ function TarotApp() {
         if (!spreadText) return;
         const finish = () => {
             if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+            setSpreadCopied(true);
+            copyTimerRef.current = setTimeout(() => setSpreadCopied(false), 1500);
         };
         try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -435,7 +438,7 @@ function TarotApp() {
                                     if (e.key === "Enter" || e.key === " ") copySpread();
                                 }}
                             >
-                                {spreadText}
+                                {spreadCopied ? "Copied" : spreadText}
                             </div>
                         )}
                     </section>
