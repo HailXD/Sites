@@ -243,16 +243,17 @@ function TarotApp() {
 
     return (
         <div className="theme-dark min-h-screen w-full">
-            <div className="min-h-screen">
-                <header className="sticky top-0 z-20 glass-panel">
+            <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
+                <div className="flex flex-col min-h-screen border-r border-white/10">
+                    <header className="sticky top-0 z-20 glass-panel">
                     <div className="mx-auto max-w-3xl px-4 py-4 flex items-center gap-4">
                         <div className="text-xl font-semibold tracking-wide">
                             Tarot Draw
                         </div>
                     </div>
-                </header>
+                    </header>
 
-                <main className="mx-auto max-w-3xl px-4 py-8">
+                    <main className="mx-auto max-w-3xl px-4 py-8">
                     {/* Controls */}
                     <section className="mb-8">
                         <div className="flex flex-col gap-3">
@@ -456,11 +457,22 @@ function TarotApp() {
                             </div>
                         )}
                     </section>
-                </main>
+                    </main>
 
-                <footer className="px-4 py-10 text-center text-xs text-zinc-300">
-                    Card data is generic; no copyrighted card art is used.
-                </footer>
+                    <footer className="px-4 py-10 text-center text-xs text-zinc-300">
+                        Card data is generic; no copyrighted card art is used.
+                    </footer>
+                </div>
+
+                <aside className="min-h-screen">
+                    <div className="sticky top-0 h-screen">
+                        <iframe
+                            src="https://text.is/"
+                            title="Notes"
+                            className="w-full h-full border-0"
+                        />
+                    </div>
+                </aside>
             </div>
         </div>
     );
