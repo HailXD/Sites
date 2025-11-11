@@ -7,23 +7,74 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="input-panel">
-      <h2>Image Stacker</h2>
-      <label for="img-file">Upload Image(s):</label>
-      <input type="file" id="img-file" accept="image/*" multiple>
+  <div class="app-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Stack Images</p>
+        <h1>Build tall screenshots, quick moodboards, or horizontal strips.</h1>
+        <p>Drop in your images, tweak the order, and preview the final stack before downloading.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="download-composite" class="btn primary" type="button">Download stack</button>
+        <button id="clear-all" class="btn ghost" type="button">Clear all</button>
+      </div>
+    </header>
 
-      <label for="orientation">Stack Orientation:</label>
-      <select id="orientation">
-        <option value="column">Vertical</option>
-        <option value="row">Horizontal</option>
-      </select>
+    <main class="workspace">
+      <section class="panel controls-panel">
+        <div class="panel-heading">
+          <h2>1 · Collect images</h2>
+          <p class="hint">Drop files anywhere in the zone or tap browse. Order follows the list below.</p>
+        </div>
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="img-file" accept="image/*" multiple hidden>
+          <p class="drop-zone-title">Drop images here</p>
+          <p class="drop-zone-subtitle">PNG, JPG, WEBP — up to 12 files at a time.</p>
+          <button type="button" id="browse-btn" class="btn secondary">Browse files</button>
+        </div>
 
-      <button id="download-composite">Download</button>
-    </div>
+        <div class="option-group">
+          <h2>2 · Choose orientation</h2>
+          <div class="orientation-toggle" id="orientation-toggle">
+            <button type="button" class="toggle active" data-orientation="column">Vertical</button>
+            <button type="button" class="toggle" data-orientation="row">Horizontal</button>
+          </div>
+        </div>
 
-    <div class="output-panel" id="output-panel">
-    </div>
+        <div class="option-group queue-group">
+          <div class="group-header">
+            <h2>Stack order</h2>
+            <span id="queue-count" class="queue-count">No images yet</span>
+          </div>
+          <ul class="image-queue" id="image-queue">
+            <li class="empty">Waiting for images…</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel preview-panel">
+        <div class="preview-heading">
+          <h2>Live preview</h2>
+          <p>As you add or reorder, the canvas updates with the exact stack you will download.</p>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="preview-canvas" width="600" height="600"></canvas>
+          <div class="preview-placeholder" id="preview-placeholder">
+            <p>Drop a few images to see the preview.</p>
+          </div>
+        </div>
+        <div class="preview-meta">
+          <span id="meta-dimensions">Dimensions: —</span>
+          <span id="meta-count">Images: 0</span>
+        </div>
+
+        <div class="gallery-header">
+          <h3>Reference thumbnails</h3>
+          <button type="button" id="toggle-gallery" class="btn text">Hide</button>
+        </div>
+        <div class="output-panel" id="output-panel"></div>
+      </section>
+    </main>
   </div>
 
   <script src="script.js"></script>
