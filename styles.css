@@ -167,6 +167,15 @@ body {
   pointer-events: none;
 }
 
+.repo-card.extra {
+  border-color: rgba(123, 124, 255, 0.38);
+  box-shadow: 0 20px 60px rgba(123, 124, 255, 0.25);
+}
+
+.repo-card.extra::before {
+  background: linear-gradient(140deg, rgba(123, 124, 255, 0.24), rgba(123, 124, 255, 0.08));
+}
+
 .repo-card:hover {
   transform: translateY(-2px);
   transition: transform 140ms ease;
@@ -198,6 +207,16 @@ body {
   border-radius: 50%;
   background: #5fe1ff;
   box-shadow: 0 0 12px rgba(95, 225, 255, 0.6);
+}
+
+.badge.extra {
+  background: rgba(123, 124, 255, 0.22);
+  color: #e6e6ff;
+}
+
+.badge.extra::before {
+  background: #b9baff;
+  box-shadow: 0 0 12px rgba(185, 186, 255, 0.7);
 }
 
 .copy-btn {

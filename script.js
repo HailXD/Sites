@@ -1,4 +1,4 @@
-const repos = [
+const baseRepos = [
   { repo: 'HailXD/wplace-fixer', url: 'https://hailxd.github.io/wplace-fixer/', branch: 'main', path: '/', status: 'built' },
   { repo: 'HailXD/tarot-stocks', url: 'https://hailxd.github.io/tarot-stocks/', branch: 'main', path: '/', status: 'built' },
   { repo: 'HailXD/tarot-draw', url: 'https://hailxd.github.io/tarot-draw/', branch: 'main', path: '/', status: 'built' },
@@ -16,6 +16,31 @@ const repos = [
   { repo: 'HailXD/apple-insert', url: 'https://hailxd.github.io/apple-insert/', branch: 'main', path: '/', status: 'built' },
   { repo: 'HailXD/PokeRogue-PathFinder', url: 'https://hailxd.github.io/PokeRogue-PathFinder/', branch: 'main', path: '/', status: 'built' },
 ];
+
+const buildExtraRepos = () => {
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('ex');
+  if (!raw) return [];
+
+  const baseSet = new Set(baseRepos.map(r => r.repo.toLowerCase()));
+  const names = raw.split(',').map(name => name.trim()).filter(Boolean);
+
+  return [...new Set(names.map(name => name.toLowerCase()))] // dedupe case-insensitively
+    .filter(name => !baseSet.has(`hailxd/${name}`)) // skip if already listed
+    .map(name => {
+      const repoName = `HailXD/${name}`;
+      return {
+        repo: repoName,
+        url: `https://hailxd.github.io/${name}/`,
+        branch: 'main',
+        path: '/',
+        status: 'extra',
+        extra: true,
+      };
+    });
+};
+
+const repos = [...buildExtraRepos(), ...baseRepos];
 
 const repoGrid = document.getElementById('repoGrid');
 const searchInput = document.getElementById('searchInput');
@@ -47,13 +72,15 @@ const copyToClipboard = async (text, button) => {
 
 const createCard = (item) => {
   const article = document.createElement('article');
-  article.className = 'repo-card';
+  const classes = ['repo-card'];
+  if (item.extra) classes.push('extra');
+  article.className = classes.join(' ');
   article.dataset.repo = item.repo.toLowerCase();
 
   const top = document.createElement('div');
   top.className = 'card-top';
   top.innerHTML = `
-    <span class="badge">${item.status}</span>
+    <span class="badge${item.extra ? ' extra' : ''}">${item.status}</span>
     <button class="copy-btn" type="button">Copy link</button>
   `;
 
@@ -97,8 +124,12 @@ const renderList = (items) => {
 };
 
 const sortItems = (items, sort) => {
-  const sorted = [...items].sort((a, b) => a.repo.localeCompare(b.repo));
-  return sort === 'za' ? sorted.reverse() : sorted;
+  const direction = sort === 'za' ? -1 : 1;
+  return [...items].sort((a, b) => {
+    if (a.extra && !b.extra) return -1;
+    if (!a.extra && b.extra) return 1;
+    return a.repo.localeCompare(b.repo) * direction;
+  });
 };
 
 const applyFilters = () => {
