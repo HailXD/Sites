@@ -1,4 +1,5 @@
 const baseRepos = [
+  'HailXD/encrypt',
   'HailXD/wplace-fixer',
   'HailXD/tarot-stocks',
   'HailXD/tarot-draw',
