@@ -1,6 +1,6 @@
 const baseRepos = [
   'HailXD/encrypt',
-  'HailXD/gemini-encrypt',
+  'HailXD/gemini-watermark',
   'HailXD/wplace-fixer',
   'HailXD/tarot-stocks',
   'HailXD/tarot-draw',
