@@ -3,6 +3,7 @@ const baseRepos = [
   'HailXD/gemini-watermark',
   'HailXD/reverse-text',
   'HailXD/key-gen',
+  'HailXD/sims-4-lots',
   'HailXD/wplace-fixer',
   'HailXD/tarot-stocks',
   'HailXD/tarot-draw',
