@@ -25,28 +25,41 @@ const repoToUrl = (repo) => {
   return `https://hailxd.github.io/${name}/`;
 };
 
-const buildExtraRepos = () => {
-  const params = new URLSearchParams(window.location.search);
-  const raw = params.get('ex');
-  if (!raw) return [];
-
-  const baseSet = new Set(baseRepos.map(r => r.toLowerCase()));
-  const names = raw.split(',').map(name => name.trim()).filter(Boolean);
-
-  return [...new Set(names.map(name => name.toLowerCase()))] // dedupe case-insensitively
-    .filter(name => !baseSet.has(`hailxd/${name}`)) // skip if already listed
-    .map(name => {
-      const repoName = `HailXD/${name}`;
-      return {
-        repo: repoName,
-        extra: true,
-      };
-    });
+const normalizeExtraName = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+  const parts = trimmed.split('/');
+  const name = parts[parts.length - 1] || '';
+  return name.toLowerCase();
 };
 
+const getExtraNameSet = () => {
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('ex');
+  if (!raw) return new Set();
+
+  const names = raw
+    .split(',')
+    .map(normalizeExtraName)
+    .filter(Boolean);
+
+  return new Set(names);
+};
+
+const extraNameSet = getExtraNameSet();
+const baseNameSet = new Set(baseRepos.map(repo => {
+  const [, name = ''] = repo.split('/');
+  return name.toLowerCase();
+}));
+
 const repos = [
-  ...buildExtraRepos(),
-  ...baseRepos.map(repo => ({ repo })),
+  ...[...extraNameSet]
+    .filter(name => !baseNameSet.has(name))
+    .map(name => ({ repo: `HailXD/${name}`, extra: true })),
+  ...baseRepos.map(repo => {
+    const [, name = ''] = repo.split('/');
+    return { repo, extra: extraNameSet.has(name.toLowerCase()) };
+  }),
 ];
 
 const repoGrid = document.getElementById('repoGrid');
