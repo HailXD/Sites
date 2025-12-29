@@ -1,4 +1,5 @@
 const baseRepos = [
+  'HailXD/encrypt',
   'HailXD/gemini-watermark',
   'HailXD/reverse-text',
   'HailXD/key-gen',
