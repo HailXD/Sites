@@ -20,6 +20,7 @@ const baseRepos = [
   'HailXD/apple-purchase',
   'HailXD/apple-insert',
   'HailXD/PokeRogue-PathFinder',
+  'HailXD/danboo-prompt'
 ];
 
 const repoToUrl = (repo) => {
